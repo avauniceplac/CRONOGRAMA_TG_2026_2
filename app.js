@@ -10,7 +10,7 @@
    Cole abaixo o link do arquivo no Google Drive.
    Dica: use o link de compartilhamento com acesso "qualquer pessoa com o link".
    ============================================================ */
-const LINK_CRONOGRAMA_PDF = "https://drive.google.com/file/d/1-Cn5JxdVC4PbvAO3RQneymELgaYiVzy7/view?usp=drive_link";
+const LINK_CRONOGRAMA_PDF = "https://drive.google.com/file/d/1eHh7fnR-yzaE1twB2BieWRJLZzRO90jP/view?usp=drive_link";
 
 const EVENTOS = [
   { titulo:"Abertura das Salas", inicio:"2026-08-04", fim:"2026-08-04" },
