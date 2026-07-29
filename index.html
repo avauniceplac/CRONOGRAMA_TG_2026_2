@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cronograma TGH — 1º Módulo</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ================= HUD ================= -->
+  <div class="hud">
+    <h1>Cronograma TGH — 1º Módulo</h1>
+    <p>Acompanhe as atividades e prazos em tempo real.</p>
+    <div class="xp-row">
+      <div class="xp-labels">
+        <span id="progLabel">—</span>
+        <span id="progPct" class="mono">0%</span>
+      </div>
+      <div class="xp-bar"><div class="xp-fill" id="xpFill"></div></div>
+    </div>
+  </div>
+
+  <div class="next-event" id="nextEvent" style="display:none">
+    <div class="ne-icon"><i data-lucide="bell" class="icon"></i></div>
+    <div class="ne-body">
+      <div class="ne-label">Próximo prazo</div>
+      <div class="ne-title" id="neTitle">—</div>
+    </div>
+    <div class="ne-count mono" id="neCount">—</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="cronograma"><i data-lucide="calendar-days" class="icon"></i><span>Cronograma</span></button>
+    <button class="tab-btn" data-tab="notas"><i data-lucide="calculator" class="icon"></i><span>Como são calculadas as notas</span></button>
+  </div>
+
+  <!-- ============ PAINEL: CRONOGRAMA ============ -->
+  <div class="tab-panel active" id="panel-cronograma">
+
+  <div class="legend">
+    <span><i class="sw" style="background:var(--verde)"></i> Em andamento</span>
+    <span><i class="sw" style="background:#c99a2e"></i> Encerra em até 7 dias</span>
+    <span><i class="sw" style="background:var(--vermelho)"></i> Encerra em até 3 dias</span>
+    <span><i class="sw" style="background:#2563EB"></i> Ainda vai começar</span>
+    <span><i class="sw" style="background:#cfd8d3"></i> Encerrado</span>
+  </div>
+
+  <div class="aviso-inline">
+    <i data-lucide="info" class="icon"></i>
+    Esse cronograma pode sofrer alterações.
+  </div>
+
+  <!-- calendários (grade) e agenda (mobile) gerados via JS -->
+  <div id="calContainer"></div>
+  <div id="agendaContainer" class="agenda"></div>
+
+  <div class="actions-row">
+    <button class="btn-pdf" id="openPdfModal"><i data-lucide="file-text" class="icon"></i> Abrir cronograma em PDF</button>
+  </div>
+
+  <div class="footer-note">
+    <i data-lucide="info" class="icon"></i>
+    Esse cronograma pode sofrer alterações.
+  </div>
+
+  </div><!-- /panel-cronograma -->
+
+  <!-- ============ PAINEL: NOTAS ============ -->
+  <div class="tab-panel" id="panel-notas">
+
+    <div class="notas-card">
+      <h3><i data-lucide="target" class="icon"></i> Pontuação do módulo</h3>
+      <div class="notas-sub">Escala de 10 pontos</div>
+
+      <div class="peso-list">
+        <div class="peso">
+          <div class="peso-nome">Fórum de aprendizagem avaliativo</div>
+          <div class="peso-val">1,0</div>
+          <div class="peso-bar"><div class="peso-fill" style="width:10%"></div></div>
+        </div>
+        <div class="peso">
+          <div class="peso-nome">Exercícios online</div>
+          <div class="peso-val">1,0</div>
+          <div class="peso-bar"><div class="peso-fill" style="width:10%"></div></div>
+        </div>
+        <div class="peso">
+          <div class="peso-nome">Trabalho final do módulo</div>
+          <div class="peso-val">3,0</div>
+          <div class="peso-bar"><div class="peso-fill" style="width:30%"></div></div>
+        </div>
+        <div class="peso">
+          <div class="peso-nome">Prova</div>
+          <div class="peso-val">5,0</div>
+          <div class="peso-bar"><div class="peso-fill" style="width:50%"></div></div>
+        </div>
+        <div class="peso total">
+          <div class="peso-nome">Total do módulo</div>
+          <div class="peso-val">10,0</div>
+        </div>
+      </div>
+
+      <div class="formula">
+        <div class="f-label">Sua média do módulo</div>
+        <div class="f-calc">Fórum + Exercícios + Trabalho + Prova</div>
+      </div>
+    </div>
+
+    <div class="notas-card">
+      <h3><i data-lucide="gauge" class="icon"></i> Onde sua média se encaixa</h3>
+
+      <div class="regua">
+        <div class="regua-bar">
+          <div class="regua-seg r-vermelho">0 a 1,9</div>
+          <div class="regua-seg r-amarelo">2,0 a 5,9</div>
+          <div class="regua-seg r-verde">6,0 a 10</div>
+        </div>
+      </div>
+
+      <div class="faixas">
+        <div class="faixa f-verde">
+          <i class="fx-dot"></i>
+          <div><b>6,0 ou mais</b> — Aprovado. Não precisa fazer a prova final.</div>
+        </div>
+        <div class="faixa f-amarelo">
+          <i class="fx-dot"></i>
+          <div><b>Entre 2,0 e 5,9</b> — Recuperação. Você faz a prova final.</div>
+        </div>
+        <div class="faixa f-vermelho">
+          <i class="fx-dot"></i>
+          <div><b>Abaixo de 2,0</b> — Sem direito à recuperação. A nota não é suficiente para chegar à aprovação.</div>
+        </div>
+      </div>
+
+      <div class="rec-box">
+        <h4><i data-lucide="repeat" class="icon"></i> Se você for para a recuperação</h4>
+        <div class="rec-pts">A prova final vale <b>10 pontos</b>.</div>
+        <div class="formula" style="margin-top:12px">
+          <div class="f-label">Sua nota final</div>
+          <div class="f-calc">(Média do módulo + Prova final) ÷ 2</div>
+        </div>
+        <div class="faixas" style="margin-top:12px">
+          <div class="faixa f-verde">
+            <i class="fx-dot"></i>
+            <div><b>6,0 ou mais</b> — Aprovado.</div>
+          </div>
+          <div class="faixa f-vermelho">
+            <i class="fx-dot"></i>
+            <div><b>Abaixo de 6,0</b> — Reprovado.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /panel-notas -->
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-overlay" id="pdfModalOverlay">
+  <div class="modal">
+    <h3><i data-lucide="alert-triangle" class="icon"></i> Antes de baixar</h3>
+    <p>
+      Este cronograma pode ser <strong>alterado a qualquer momento</strong> pela coordenação.
+      O arquivo em PDF é uma fotografia das datas e pode ficar desatualizado.
+      A versão atualizada está sempre <strong>dentro da disciplina EAD, na aba Cronograma</strong>.
+    </p>
+    <label>
+      <input type="checkbox" id="ackCheckbox">
+      Estou ciente de que o cronograma pode mudar e que devo conferir a versão atualizada na disciplina EAD, aba Cronograma.
+    </label>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="cancelPdf">Cancelar</button>
+      <button class="btn-confirm" id="confirmPdf">Abrir PDF</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
