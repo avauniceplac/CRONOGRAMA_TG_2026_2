@@ -56,11 +56,6 @@
     Esse cronograma pode sofrer alterações.
   </div>
 
-  <div class="aviso-2chamada">
-    <i data-lucide="file-text" class="icon"></i>
-    A solicitação de Prova 2ª Chamada deve ser realizada via requerimento no <strong>Portal do Aluno</strong>, com justificativa legal. Dúvidas? Entre em contato com a coordenação do seu curso em tempo hábil.
-  </div>
-
   <!-- calendários (grade) e agenda (mobile) gerados via JS -->
   <div id="calContainer"></div>
   <div id="agendaContainer" class="agenda"></div>
@@ -203,7 +198,7 @@
   <div class="modal">
     <h3><i data-lucide="alert-triangle" class="icon"></i> Antes de baixar</h3>
     <p>
-      Este cronograma pode ser <strong>alterado a qualquer momento</strong> pela coordenação.
+      Este cronograma pode ser alterado.
       O arquivo em PDF é uma fotografia das datas e pode ficar desatualizado.
       A versão atualizada está sempre <strong>dentro da disciplina EAD, na aba Cronograma</strong>.
     </p>
@@ -214,6 +209,22 @@
     <div class="modal-actions">
       <button class="btn-cancel" id="cancelPdf">Cancelar</button>
       <button class="btn-confirm" id="confirmPdf">Abrir PDF</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="eventModalOverlay">
+  <div class="modal event-modal">
+    <div class="event-modal-head" id="evHead">
+      <button class="event-modal-close" id="closeEventModal" aria-label="Fechar"><i data-lucide="x" class="icon"></i></button>
+      <h3 id="evTitulo">—</h3>
+      <div class="event-modal-sub" id="evPeriodo">—</div>
+    </div>
+    <div class="event-modal-body">
+      <div class="event-modal-tags">
+        <span class="event-tag" id="evTagStatus">—</span>
+      </div>
+      <p id="evDescricao">—</p>
     </div>
   </div>
 </div>
