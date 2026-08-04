@@ -13,9 +13,9 @@
 const LINK_CRONOGRAMA_PDF = "https://drive.google.com/file/d/1uk1Mb3sFg6DbA7fQWcHvKyXJcYlqlBfK/view?usp=drive_link";
 
 const EVENTOS = [
-  { titulo:"Abertura das Salas", inicio:"2026-08-04", fim:"2026-08-04",
+  { titulo:"Abertura das Salas", inicio:"2026-08-04", fim:"2026-08-",
     descricao:"Abertura das salas virtuais da disciplina para início das atividades do 1º Bimestre." },
-  { titulo:"Fórum de Aprendizagem Avaliativo — 1º Bimestre", inicio:"2026-08-11", fim:"2026-09-04",
+  { titulo:"Fórum de Aprendizagem Avaliativo — 1º Bimestre", inicio:"2026-09-26", fim:"2026-09-04",
     descricao:"Período para participar do fórum de aprendizagem avaliativo do 1º Bimestre." },
   { titulo:"Trabalho Final do Bimestre — 1º Bimestre",       inicio:"2026-08-11", fim:"2026-09-04",
     descricao:"Período para realização e envio do Trabalho Final do 1º Bimestre." },
