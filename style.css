@@ -60,6 +60,17 @@
   .next-event .ne-title{font-size:14.5px;font-weight:700;margin-top:1px}
   .next-event .ne-count{flex:none;font-size:12.5px;font-weight:800;color:var(--laranja);background:var(--laranja-suave);padding:7px 12px;border-radius:10px;white-space:nowrap}
 
+  /* selo "+N" quando há atividades no mesmo prazo */
+  .next-event .ne-title{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .ne-mais{flex:none;font-size:12px;font-weight:800;line-height:1;color:var(--laranja);background:var(--laranja-suave);border:1px solid var(--laranja);border-radius:999px;padding:3px 9px;cursor:pointer;transition:background .18s ease,color .18s ease}
+  .ne-mais:hover{background:var(--laranja);color:#fff}
+
+  /* lista de atividades no mesmo prazo (dentro do modal) */
+  .ev-lista-prazo{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+  .ev-lista-prazo li{display:flex;flex-direction:column;gap:3px;padding-left:14px;border-left:3px solid var(--laranja-suave)}
+  .ev-lista-prazo li strong{font-size:14.5px;font-weight:700;color:var(--texto)}
+  .ev-lista-prazo li span{font-size:13.5px;color:var(--muted);line-height:1.45}
+
   /* ================= CALENDÁRIO (GRADE) ================= */
   .month-block{margin-top:26px}
   .month-block h2{
@@ -344,6 +355,12 @@
     font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;
     background:var(--verde-suave2);color:var(--verde-primario);
   }
+  /* a tag de prazo acompanha a cor da condicional do evento */
+  .event-tag.status-upcoming{background:var(--verde-suave2);color:var(--verde-primario)}
+  .event-tag.status-upcoming-7{background:#faf0d6;color:#8a6717}
+  .event-tag.status-upcoming-3{background:#fbe2e2;color:#a83232}
+  .event-tag.status-future{background:#e4ecfd;color:#1d4fc0}
+  .event-tag.status-past{background:#e9edea;color:#5c655e}
   .event-modal-body p{font-size:13.5px;color:var(--texto);line-height:1.6;margin:0}
 
   @media (max-width:640px){
