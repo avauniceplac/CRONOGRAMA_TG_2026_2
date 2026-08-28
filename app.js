@@ -80,10 +80,36 @@ document.addEventListener("DOMContentLoaded", function(){
     if (d >= 0 && d < nextDays){ nextDays = d; next = ev; nextIsStart = ev.status === "future"; }
   });
   if (next){
-    $("#neTitle").textContent = next.titulo;
+    // todas as atividades que compartilham o mesmo prazo (mesma data de referência)
+    const nextRef = next.status === "future" ? next.inicio : next.fim;
+    const empatados = EVENTOS.filter(ev => {
+      if (ev.status === "past") return false;
+      const ref = ev.status === "future" ? ev.inicio : ev.fim;
+      return ref === nextRef && dUntil(ref) === nextDays;
+    });
+
     $("#neCount").textContent = nextDays === 0 ? "é hoje!" :
       (nextIsStart ? `inicia em ${nextDays}d` : `encerra em ${nextDays}d`);
     $("#nextEvent").style.display = "flex";
+
+    const neTitle = $("#neTitle");
+    neTitle.textContent = "";
+    const nomeSpan = document.createElement("span");
+    nomeSpan.className = "ne-nome";
+    nomeSpan.textContent = next.titulo;
+    neTitle.appendChild(nomeSpan);
+
+    if (empatados.length > 1){
+      const extra = empatados.length - 1;
+      const badge = document.createElement("button");
+      badge.type = "button";
+      badge.className = "ne-mais";
+      badge.textContent = "+" + extra;
+      badge.setAttribute("aria-label", extra + " outra(s) atividade(s) no mesmo prazo — ver detalhes");
+      badge.title = extra + " outra(s) atividade(s) no mesmo prazo";
+      badge.addEventListener("click", () => abrirModalPrazo(empatados, nextDays, nextIsStart));
+      neTitle.appendChild(badge);
+    }
   }
 
   /* ---------- meses a renderizar (do primeiro ao último evento) ---------- */
@@ -274,6 +300,22 @@ document.addEventListener("DOMContentLoaded", function(){
     future: "Ainda vai começar",
   };
 
+  /* prazo real (dias que faltam de fato), usado na tag do modal */
+  function prazoTexto(ev){
+    if (ev.status === "past") return "Encerrado";
+    if (ev.status === "future"){
+      const d = dUntil(ev.inicio);
+      if (d <= 0) return "Começa hoje";
+      if (d === 1) return "Começa amanhã";
+      return `Começa em ${d} dias`;
+    }
+    // em andamento (qualquer nível de urgência): mostra quanto falta para encerrar
+    const d = dUntil(ev.fim);
+    if (d <= 0) return "Encerra hoje";
+    if (d === 1) return "Encerra amanhã";
+    return `Faltam ${d} dias para encerrar`;
+  }
+
   function abrirModalEvento(idx){
     const ev = EVENTOS[idx];
     if (!ev) return;
@@ -281,8 +323,39 @@ document.addEventListener("DOMContentLoaded", function(){
     evHead.className = "event-modal-head status-" + ev.status;
     evTitulo.textContent = ev.titulo;
     evPeriodo.textContent = per;
-    evTagStatus.textContent = STATUS_LABEL[ev.status] || "—";
+    evTagStatus.textContent = prazoTexto(ev);
+    evTagStatus.className = "event-tag status-" + ev.status;
+    evDescricao.innerHTML = "";
     evDescricao.textContent = ev.descricao || "Sem descrição adicional para este evento.";
+    evOverlay.classList.add("show");
+    if (window.lucide) lucide.createIcons();
+  }
+
+  /* modal que lista todas as atividades que compartilham o mesmo prazo (selo +N) */
+  function abrirModalPrazo(lista, dias, isStart){
+    const ref = lista[0];
+    const per = ref.inicio === ref.fim ? fmt(pd(ref.inicio)) : `${fmt(pd(ref.inicio))} a ${fmt(pd(ref.fim))}`;
+    evHead.className = "event-modal-head status-" + ref.status;
+    evTitulo.textContent = `${lista.length} atividades no mesmo prazo`;
+    evPeriodo.textContent = per;
+    evTagStatus.textContent = prazoTexto(ref);
+    evTagStatus.className = "event-tag status-" + ref.status;
+    evDescricao.innerHTML = "";
+    const ul = document.createElement("ul");
+    ul.className = "ev-lista-prazo";
+    lista.forEach(ev => {
+      const li = document.createElement("li");
+      const nome = document.createElement("strong");
+      nome.textContent = ev.titulo;
+      li.appendChild(nome);
+      if (ev.descricao){
+        const p = document.createElement("span");
+        p.textContent = ev.descricao;
+        li.appendChild(p);
+      }
+      ul.appendChild(li);
+    });
+    evDescricao.appendChild(ul);
     evOverlay.classList.add("show");
     if (window.lucide) lucide.createIcons();
   }
